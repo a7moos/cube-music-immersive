@@ -11,18 +11,18 @@ non-WebGL / reduced-motion fallback.
 
 ## Run locally
 
-Any static file server works. The convenience script uses `serve` via `npx`
-(no install step needed):
+Any static file server works. The convenience script uses Python's built-in
+server (no install step, always available on macOS):
 
 ```bash
 npm run dev
-# → http://localhost:3000
+# → http://localhost:4321
 ```
 
-Alternatives, if you'd rather not use Node:
+Or run it directly, without npm:
 
 ```bash
-python3 -m http.server 8000      # → http://localhost:8000
+python3 -m http.server 4321      # → http://localhost:4321
 ```
 
 Then open the printed URL and hard-refresh after edits.
