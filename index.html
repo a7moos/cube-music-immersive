@@ -137,11 +137,11 @@ let pointer={x:0,y:0};$$('.art').forEach(a=>{a.addEventListener('pointermove',e=
 function pageState(){const y=scrollY,h=innerHeight,track=$('.hero-track');const p=Math.max(0,Math.min(1,y/Math.max(1,track.offsetHeight-h)));$('.progress').style.transform='scaleX('+(y/Math.max(1,document.documentElement.scrollHeight-h))+')';const wr=$('.world').getBoundingClientRect();$('header').classList.toggle('light',wr.top<65&&wr.bottom>65);if(!reduced)$('.hero-copy').style.transform='translateY('+(-p*60)+'px)';const tr=$('.service-track'),st=tr.getBoundingClientRect().top;if(innerWidth>800&&!reduced&&st<=0&&st>=-(tr.offsetHeight-h)){const i=Math.min(5,Math.floor((-st/Math.max(1,tr.offsetHeight-h))*6));if(i!==selected)choose(i)}return p}
 let sceneRender=null,firstRender=false;
 try{if(typeof THREE==='undefined')throw Error('3D unavailable');
-const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.95;
+const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.06;
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(35,1,.1,100);camera.position.set(0,.3,9);camera.lookAt(0,0,0);
 const envCanvas=document.createElement('canvas');envCanvas.width=1024;envCanvas.height=512;const ctx=envCanvas.getContext('2d');ctx.fillStyle='#232321';ctx.fillRect(0,0,1024,512);let grad=ctx.createLinearGradient(0,0,0,512);grad.addColorStop(0,'#7a7871');grad.addColorStop(.48,'#343331');grad.addColorStop(.52,'#121213');grad.addColorStop(1,'#090909');ctx.fillStyle=grad;ctx.fillRect(0,0,1024,512);ctx.fillStyle='#faf7ed';ctx.fillRect(170,35,160,200);ctx.fillStyle='#a5a4a0';ctx.fillRect(620,10,270,85);ctx.fillStyle='#ffffff';ctx.fillRect(950,80,30,290);ctx.fillStyle='#b4c5e0';ctx.fillRect(400,280,55,140);
 const envTex=new THREE.CanvasTexture(envCanvas);envTex.mapping=THREE.EquirectangularReflectionMapping;const pmrem=new THREE.PMREMGenerator(renderer),env=pmrem.fromEquirectangular(envTex).texture;scene.environment=env;envTex.dispose();pmrem.dispose();
-scene.add(new THREE.AmbientLight(0xffffff,.5));const key=new THREE.DirectionalLight(0xfff6e8,1.3);key.position.set(-3,5,4);scene.add(key);const rim=new THREE.DirectionalLight(0xffffff,.8);rim.position.set(4,1,-2);scene.add(rim);const fill=new THREE.PointLight(0xffffff,.65,15);fill.position.set(2,-2,3);scene.add(fill);
+scene.add(new THREE.AmbientLight(0xffffff,.5));scene.add(new THREE.HemisphereLight(0xbcccf0,0x191917,.4));const key=new THREE.DirectionalLight(0xfff6e8,1.3);key.position.set(-3,5,4);scene.add(key);const rim=new THREE.DirectionalLight(0xffffff,.8);rim.position.set(4,1,-2);scene.add(rim);const fill=new THREE.PointLight(0xffffff,.85,0);fill.position.set(2,-2,3);scene.add(fill);
 /* --- Atmospheric environment (igloo-style world around the cube) --- */
 scene.fog=new THREE.Fog(0x101011,8,30);
 let env3d=null;{
@@ -193,16 +193,17 @@ const r=host.getBoundingClientRect();if(r.width!==lastW||r.height!==lastH){lastW
 const inHero=host===hero;
 if(inHero){const solveProgress=reduced?0:Math.max(0,Math.min(1,(p-.05)/.7));applySolve(solveProgress);
 if(!orbit.drag&&!reduced)orbit.taz+=.0016;
-orbit.tr=(camera.aspect<.85?11.6:9.2)-p*1.9;orbit.tel=.18+p*.10;
+const portrait=camera.aspect<.9;orbit.tr=(portrait?15.2:9.2)-p*1.8;orbit.tel=.18+p*.10;
 orbit.az+=(orbit.taz-orbit.az)*.07;orbit.el+=(orbit.tel-orbit.el)*.07;orbit.r+=(orbit.tr-orbit.r)*.06;
 const az=orbit.az+(reduced?0:pointer.x*.22),el=Math.max(-.28,Math.min(.85,orbit.el+(reduced?0:-pointer.y*.12))),rr=orbit.r,cy=-.06;
 camera.position.set(Math.sin(az)*Math.cos(el)*rr,cy+Math.sin(el)*rr,Math.cos(az)*Math.cos(el)*rr);camera.lookAt(0,cy,0);
-group.rotation.set(0,0,0);group.position.y=0;group.scale.setScalar(innerWidth<481?1.02:1.16);
+fill.position.set(camera.position.x,camera.position.y+2,camera.position.z);
+group.rotation.set(0,0,0);group.position.y=0;group.scale.setScalar(portrait?.96:1.16);
 if(env3d){env3d.ground.visible=true;env3d.dust.visible=true;if(!reduced)env3d.dust.rotation.y+=.0004;}
 }else{applySolve(1);
 const tx=turns[selected][0]+.25,ty=turns[selected][1]-.38;turnX+=(tx-turnX)*(reduced?1:.09);turnY+=(ty-turnY)*(reduced?1:.09);
 group.rotation.set(turnX+(reduced?0:pointer.y*.08),turnY+(reduced?0:pointer.x*.12),.075);group.position.y=0;
-camera.position.set(0,.3,camera.aspect<.8?10.8:8.5);camera.lookAt(0,0,0);group.scale.setScalar(.85);
+camera.position.set(0,.3,camera.aspect<.8?10.8:8.5);camera.lookAt(0,0,0);group.scale.setScalar(.85);fill.position.set(2,-2,3);
 if(env3d){env3d.ground.visible=false;env3d.dust.visible=false;}}
 renderer.render(scene,camera);firstRender=true;last=t;};
 }catch(e){console.warn('Cube uses static fallback:',e.message)}
