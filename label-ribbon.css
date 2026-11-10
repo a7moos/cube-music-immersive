@@ -1,75 +1,47 @@
-/* Curved ribbon gallery adapted from the supplied standalone reference. */
-#catalogue{overflow:visible;padding-left:0;padding-right:0}
+/* Label catalogue: three views of the same posters (curved ribbon, spotlight, grid). */
+#catalogue{overflow:visible;padding-left:0;padding-right:0;padding-bottom:0;background:#101011;color:var(--fg)}
 #catalogue .catalogue-head,#catalogue>.empty,#catalogue>.names{margin-left:7vw;margin-right:7vw}
-.ribbon{position:relative;margin-top:42px}
-.ribbon-stage{position:relative;height:440px;overflow:visible;perspective:1400px;perspective-origin:50% 42%;touch-action:pan-y;cursor:grab;user-select:none;outline-offset:-5px}
+.ribbon{position:relative;display:flex;flex-direction:column;isolation:isolate;margin-top:34px}
+
+/* Toolbar: layout switch on the left, autoplay on the right. */
+.ribbon-bar{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;margin:0 7vw 30px;padding-top:18px;border-top:1px solid var(--line)}
+.view-toggle{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.view-toggle .k{margin:0 10px 0 0}
+.view-toggle button,.auto-toggle{font:inherit;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:none;border:1px solid var(--line);border-radius:999px;padding:9px 15px;min-height:36px;cursor:pointer;transition:color .2s,border-color .2s,background-color .2s}
+.view-toggle button:hover,.auto-toggle:hover{color:var(--fg);border-color:#ffffff66}
+.view-toggle button[aria-pressed="true"]{color:#101011;background:var(--fg);border-color:var(--fg)}
+.auto-toggle{display:inline-flex;align-items:center;gap:9px}
+.auto-toggle[hidden]{display:none}
+.auto-icon{width:9px;height:10px;box-sizing:border-box;border-style:solid;border-color:transparent transparent transparent currentColor;border-width:5px 0 5px 9px}
+.auto-toggle.playing .auto-icon{border-color:currentColor;border-width:0 3px;border-top:0;border-bottom:0}
+
+/* Stage: its height is set from the poster size in label-ribbon.js. */
+.ribbon-stage{position:relative;z-index:4;height:480px;overflow:hidden;perspective:1400px;perspective-origin:50% 45%;touch-action:pan-y;cursor:grab;user-select:none;outline-offset:-5px}
 .ribbon-stage.dragging{cursor:grabbing}
 .ribbon-layer{position:absolute;inset:0;transform-style:preserve-3d;pointer-events:none}
 .ribbon-card{position:absolute;left:0;top:0;margin:0;width:260px;background:none;border:0;padding:0;overflow:visible;color:var(--fg);text-align:left;cursor:inherit;transform-origin:center center;transform-style:preserve-3d;will-change:transform,left,top;backface-visibility:hidden;pointer-events:auto}
-.ribbon-card .ribbon-artist{position:absolute;left:5px;top:-19px;width:calc(100% - 10px);margin:0;font-size:11px;line-height:16px;letter-spacing:.004em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#c8c4bc}
+.ribbon-card .ribbon-artist{position:absolute;left:5px;top:-19px;width:calc(100% - 10px);margin:0;font-size:11px;line-height:16px;letter-spacing:.004em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#c8c4bc;opacity:var(--label,1)}
 .ribbon-media{position:absolute;inset:0;overflow:hidden;border-radius:11px;background:#101018;isolation:isolate;box-shadow:0 0 0 .3px #ffffff30}
-.ribbon-card img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none;user-select:none;transition:transform .5s ease,filter .5s ease}
-.ribbon-card:hover img{transform:scale(1.035);filter:saturate(1.08)}
+.ribbon-card img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none;transition:filter .5s ease}
+.ribbon-card:hover img{filter:saturate(1.08)}
 .ribbon-card:hover .ribbon-media{box-shadow:0 10px 25px #00000040}
+.ribbon-card:focus-visible{outline:none}
 .ribbon-card:focus-visible .ribbon-media{outline:2px solid var(--fg);outline-offset:3px}
-.ribbon-title{display:block;font-size:13px;line-height:1.4;margin:14px 4px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ribbon-meta{display:block;font-size:10px;letter-spacing:.1em;color:var(--dim);margin:0 4px}
-.ribbon-bottom{display:flex;flex-direction:column;align-items:center;gap:27px;padding:10px 7vw 36px}
-.ribbon-logo{mix-blend-mode:screen;width:154px;display:block;perspective:600px;outline-offset:6px}
-.ribbon-logo img{display:block;width:100%;height:auto;mix-blend-mode:screen;transform:translate3d(var(--logo-x,0px),var(--logo-y,0px),0) rotateX(var(--logo-rx,0deg)) rotateY(var(--logo-ry,0deg));transition:transform .28s ease-out;will-change:transform}
-.ribbon-controls{display:flex;align-items:center;justify-content:center;gap:20px;width:min(500px,100%)}
-.ribbon-controls button{border:1px solid var(--line);background:none;border-radius:50%;width:38px;height:38px;cursor:pointer;flex:none;transition:border-color .2s}
-.ribbon-controls button:hover{border-color:var(--fg)}
-.ribbon-controls input{appearance:none;flex:1;min-width:40px;height:20px;background:transparent;cursor:ew-resize;touch-action:none}
-.ribbon-controls input::-webkit-slider-runnable-track{height:1px;background:#ffffff55}
-.ribbon-controls input::-webkit-slider-thumb{appearance:none;background:var(--fg);width:3px;height:13px;margin-top:-6px;border-radius:0}
-.ribbon-controls input::-moz-range-track{height:1px;background:#ffffff55}
-.ribbon-controls input::-moz-range-thumb{background:var(--fg);width:3px;height:13px;border:0;border-radius:0}
-.ribbon-count{font-size:10px;color:var(--muted);min-width:60px;text-align:center}
-.ribbon-dialog{position:relative;background:#161617;border:1px solid var(--line);color:var(--fg);padding:0;width:min(970px,calc(100vw - 32px));max-height:88svh;overflow:auto}
-.ribbon-dialog::backdrop{background:#000a;backdrop-filter:blur(12px)}
-.ribbon-detail{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:30px;padding:32px}
-.ribbon-detail img{width:100%;height:auto;border-radius:8px}
-.ribbon-detail h2{font-size:clamp(24px,3vw,40px);line-height:1.2;margin:16px 0}
-.ribbon-detail p{color:var(--muted);font-size:13px;line-height:1.7}
-.ribbon-close{display:block;margin:14px 18px 0 auto;border:0;background:none;color:var(--fg);font:inherit;font-size:11px;cursor:pointer;padding:8px}
-.top .brand[data-mouse-logo]{perspective:500px;mix-blend-mode:screen}
-.top .brand[data-mouse-logo] img{width:118px;height:auto;display:block;mix-blend-mode:screen;transform:rotateX(var(--logo-rx,0deg)) rotateY(var(--logo-ry,0deg));transition:transform .25s ease-out}
-@media(max-width:680px){.ribbon-stage{height:400px}.ribbon{margin-top:28px}.ribbon-detail{grid-template-columns:1fr;padding:20px;gap:12px}.ribbon-detail img{max-height:36svh;width:auto;max-width:100%;margin:auto}.ribbon-controls{gap:12px}.ribbon-logo{width:130px}}
-@media(prefers-reduced-motion:reduce){.ribbon-card,.ribbon-logo img,.top .brand[data-mouse-logo] img{transition:none;will-change:auto}.ribbon-logo img,.top .brand[data-mouse-logo] img{transform:none}}
 
-/* Match the supplied HTML ribbon: portrait posters, floating mark and lone scrubber. */
-.ribbon{height:clamp(650px,88svh,1000px);margin-top:0;isolation:isolate}
-.ribbon-stage{height:100%;perspective-origin:50% 45%;z-index:4}
-.ribbon-logo{z-index:3}
-.scrub-track{z-index:8}
-.ribbon-card{transform-origin:center center}
-.ribbon-card .ribbon-artist{position:absolute;left:5px;top:0;width:calc(100% - 10px);margin:0;font-size:11px;line-height:16px;letter-spacing:.004em}
-.ribbon-card img{height:100%;aspect-ratio:auto;object-fit:cover;box-shadow:0 0 0 .3px #ffffff30;transition:filter .5s,scale .5s}
-.ribbon-card:hover img{filter:saturate(1.08);scale:1.025}
-.ribbon-title,.ribbon-meta{display:none}
-.ribbon-bottom{position:absolute;inset:0;pointer-events:none;padding:0;display:block}
-.ribbon-logo{position:absolute;left:50%;top:74%;width:154px;translate:-50% -50%;pointer-events:auto}
-.scrub-track{position:absolute;z-index:7;bottom:9.05%;right:29.1%;width:13.9%;height:12px;cursor:ew-resize;touch-action:none;pointer-events:auto}
-.scrub-track:after{content:"";position:absolute;left:0;right:0;top:5px;height:1px;background:#ffffffbf}
-.scrub-tick{position:absolute;left:0;top:1px;width:1px;height:9px;background:var(--fg);z-index:1}
-.scrub-track:focus-visible{outline:1px solid var(--fg);outline-offset:6px}
-.ribbon-detail{display:grid;grid-template-columns:45% 55%;align-items:stretch;gap:0;padding:0}
-.ribbon-detail-media{min-height:430px;background:#101018;overflow:hidden}
-.ribbon-detail-media img{width:100%;height:100%;object-fit:cover;border-radius:0}
-.ribbon-detail-copy{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:clamp(28px,5vw,64px)}
-.ribbon-detail h2{font-size:clamp(36px,5vw,72px);line-height:1.05;letter-spacing:-.04em;margin:18px 0}
-.ribbon-note{opacity:.65}
-.ribbon-close{position:absolute;right:18px;top:14px;z-index:2;margin:0;background:#ffffff14}
-@media(max-width:1000px){.scrub-track{width:19%;right:25%}}
-@media(max-width:680px){.ribbon{height:650px;min-height:80svh}.ribbon-stage{height:100%}.ribbon-card .ribbon-artist{font-size:9px;top:0}.ribbon-logo{top:77%;width:130px}.scrub-track{bottom:11%;right:12%;width:44%}.ribbon-detail{grid-template-columns:1fr}.ribbon-detail-media{min-height:180px;max-height:34svh}.ribbon-detail-copy{padding:26px}.ribbon-detail h2{font-size:40px}}
+/* Spotlight keeps every poster whole, so the neighbours can sit behind the front one. */
+.ribbon[data-view="spot"] .ribbon-stage{perspective:1100px;perspective-origin:50% 50%}
+.ribbon[data-view="spot"] .ribbon-media{box-shadow:0 18px 44px #00000073,0 0 0 .3px #ffffff30}
 
-#catalogue{background:#101011;color:var(--fg);padding-bottom:0}
-.ribbon{height:calc(100svh - 74px);min-height:620px}
-.ribbon-stage{perspective:1400px;perspective-origin:50% 45%}
-.ribbon-card .ribbon-artist{color:#c8c4bc}
-.ribbon-media{top:22px;right:0;bottom:0;left:0;height:auto;border-radius:11px;background:#101018;box-shadow:0 0 0 .3px #ffffff30}
-.cube-mark{position:absolute;z-index:6;left:50%;top:var(--mark-top,68%);width:140px;height:140px;translate:-50% 0;display:grid;place-items:center;perspective:640px;text-decoration:none}
+/* Grid: no sliding, every poster on the page. */
+.ribbon[data-view="grid"] .ribbon-stage{height:auto;overflow:visible;perspective:none;cursor:default;touch-action:auto}
+.ribbon[data-view="grid"] .ribbon-layer{position:static;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:44px 20px;padding:20px 7vw 8px;pointer-events:auto}
+.ribbon[data-view="grid"] .ribbon-card{position:relative;width:auto;aspect-ratio:305/453;cursor:pointer;will-change:auto;transition:translate .35s cubic-bezier(.23,1,.32,1)}
+.ribbon[data-view="grid"] .ribbon-card:hover{translate:0 -6px}
+.ribbon[data-view="grid"] .scrub-track{display:none}
+
+/* Below the stage, in normal flow: the cube and the scrubber can never sit on a poster. */
+.ribbon-foot{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;gap:14px;padding:26px 7vw 56px}
+.cube-mark{width:128px;height:128px;display:grid;place-items:center;perspective:640px;text-decoration:none}
 .cube-spin{width:84px;height:84px;position:relative;transform-style:preserve-3d;transform:rotateX(-24deg) rotateY(-34deg);will-change:transform}
 .cube-face{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);gap:3px;padding:4px;background:#0c0d10;border:1px solid #2a2c32;border-radius:6px;backface-visibility:hidden}
 .cube-face i{border-radius:2px;background:var(--tile);box-shadow:inset 0 1px 0 #ffffff55,inset 0 -2px 3px #00000055}
@@ -79,8 +51,47 @@
 .cube-left{transform:rotateY(-90deg) translateZ(42px);--tile:#ff7a18}
 .cube-top{transform:rotateX(90deg) translateZ(42px);--tile:#f4f1ea}
 .cube-bottom{transform:rotateX(-90deg) translateZ(42px);--tile:#f3e927}
-.scrub-track{z-index:8;left:50%;right:auto;width:168px;bottom:auto;top:calc(var(--mark-top, 68%) + 112px);translate:-50% 0}
-@media(max-width:680px){.cube-mark{top:78%;scale:.82}.ribbon-media{top:18px}}
+.scrub-track{position:relative;width:min(220px,56vw);height:24px;cursor:ew-resize;touch-action:none}
+.scrub-track:after{content:"";position:absolute;left:0;right:0;top:11px;height:1px;background:#ffffffbf}
+.scrub-tick{position:absolute;left:0;top:6px;width:1px;height:11px;background:var(--fg);z-index:1}
+.scrub-track:focus-visible{outline:1px solid var(--fg);outline-offset:6px}
+
+/* Release detail. */
+.ribbon-dialog{position:relative;background:#161617;border:1px solid var(--line);color:var(--fg);padding:0;width:min(970px,calc(100vw - 32px));max-height:88svh;overflow:auto}
+.ribbon-dialog::backdrop{background:#000a;backdrop-filter:blur(12px)}
+.ribbon-detail{display:grid;grid-template-columns:45% 55%;align-items:stretch;gap:0;padding:0}
+.ribbon-detail-media{min-height:430px;background:#101018;overflow:hidden}
+.ribbon-detail-media img{display:block;width:100%;height:100%;object-fit:contain;border-radius:0}
+.ribbon-detail-copy{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:clamp(28px,5vw,64px)}
+.ribbon-detail h2{font-size:clamp(36px,5vw,72px);line-height:1.05;letter-spacing:-.04em;margin:18px 0}
+.ribbon-detail p{color:var(--muted);font-size:13px;line-height:1.7}
+.ribbon-note{opacity:.65}
+.ribbon-close{position:absolute;right:18px;top:14px;z-index:2;display:block;margin:0;border:0;background:#ffffff14;color:var(--fg);font:inherit;font-size:11px;cursor:pointer;padding:8px}
+
+.top .brand[data-mouse-logo]{perspective:500px;mix-blend-mode:screen}
+.top .brand[data-mouse-logo] img{width:118px;height:auto;display:block;mix-blend-mode:screen;transform:rotateX(var(--logo-rx,0deg)) rotateY(var(--logo-ry,0deg));transition:transform .25s ease-out}
+
+@media(max-width:680px){
+  .ribbon{margin-top:26px}
+  .ribbon-bar{margin:0 20px 26px;padding-top:16px}
+  .view-toggle .k{display:none}
+  .view-toggle button,.auto-toggle{padding:9px 13px;letter-spacing:.1em}
+  .ribbon-bar{flex-wrap:nowrap;gap:8px}
+  .view-toggle{flex-wrap:nowrap}
+  .view-toggle button{padding:9px 11px}
+  .auto-label{display:none}
+  .auto-toggle{padding:9px 13px;flex:none}
+  .ribbon-card .ribbon-artist{font-size:9px;top:-17px}
+  .ribbon[data-view="grid"] .ribbon-layer{grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 12px;padding:18px 20px 4px}
+  .ribbon-foot{padding:18px 20px 44px;gap:10px}
+  .cube-mark{width:104px;height:104px}
+  .cube-spin{scale:.82}
+  .ribbon-detail{grid-template-columns:1fr}
+  .ribbon-detail-media{min-height:180px;max-height:34svh}
+  .ribbon-detail-copy{padding:26px}
+  .ribbon-detail h2{font-size:40px}
+}
+@media(prefers-reduced-motion:reduce){.ribbon-card,.top .brand[data-mouse-logo] img{transition:none;will-change:auto}.top .brand[data-mouse-logo] img{transform:none}}
 
 /* Compact label intro, with the copy balancing the headline. */
 .hero{min-height:0;padding:clamp(40px,6vw,88px) 7vw 64px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(260px,.8fr);column-gap:8vw;align-items:end;justify-content:normal}
@@ -90,24 +101,3 @@
 .hero .hero-actions{grid-column:2;grid-row:3;margin-top:28px;gap:18px 24px}
 @media(max-width:800px){.hero{grid-template-columns:1fr;padding:40px 7vw 48px}.hero h1,.hero .lede,.hero .hero-actions{grid-column:1;grid-row:auto}.hero h1{max-width:20ch}.hero .lede{margin-top:24px}.hero>.k{margin-bottom:20px}}
 
-/* Reference geometry: labels sit above posters and the scrubber stays low. */
-.ribbon{height:calc(100svh - 84px);min-height:650px;overflow:hidden;isolation:isolate}
-.ribbon-stage{height:100%;overflow:hidden;perspective:1400px;perspective-origin:50% 45%}
-.ribbon-card .ribbon-artist{top:-19px}
-.ribbon-media{inset:0;border-radius:11px;box-shadow:0 0 0 .3px #ffffff30}
-.ribbon-card img{object-fit:cover}
-.cube-mark{top:74%;translate:-50% -50%;pointer-events:auto}
-.scrub-track{left:auto;top:auto;right:29.1%;bottom:9.05%;width:13.9%;translate:0}
-@media(max-width:1000px){.scrub-track{width:19%;right:25%}}
-@media(max-width:680px){.ribbon{min-height:650px}.ribbon-card .ribbon-artist{top:-17px}.ribbon-media{inset:0}.cube-mark{top:77%}.scrub-track{bottom:11%;right:12%;width:44%}}
-
-/* Keep the catalogue control directly beneath the cube at every breakpoint. */
-.scrub-track{left:50%;right:auto;translate:-50% 0}
-
-/* Preserve complete artwork until portrait versions are supplied. */
-.ribbon-card img{object-fit:contain}
-.ribbon-card:hover img{scale:1}
-.ribbon-detail-media img{object-fit:contain}
-
-/* Keep the complete supplied portrait artwork visible, including on hover. */
-.ribbon-card:hover img{transform:none;scale:1}
