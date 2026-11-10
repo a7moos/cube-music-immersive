@@ -4,8 +4,8 @@ Single-page landing site for **Cube Music** ("Shaping the sound"), an independen
 Egyptian entertainment house — record label, talent agency, music production,
 events, publishing and distribution.
 
-The entire site lives in one self-contained file: [`index.html`](./index.html).
-CSS is inline in `<style>`, and the scroll-driven hero animation is powered by a
+The landing page is [`index.html`](./index.html). Its CSS is inline in `<style>`,
+and the scroll-driven hero animation is powered by a
 bundled copy of [Three.js](https://threejs.org/) (WebGL) with a graceful
 non-WebGL / reduced-motion fallback.
 
@@ -31,15 +31,26 @@ Then open the printed URL and hard-refresh after edits.
 
 ```
 cube-music-immersive/
-  index.html    # the whole site — markup + inline CSS + inline JS (Three.js)
-  package.json  # npm run dev → static server on :3000
-  README.md
-  .gitignore
+  index.html            # landing page: markup, inline CSS, inline JS (Three.js cube, sound)
+  label.html …          # the six division pages (label, talent, production, events, publishing, distribution)
+  site.css / site.js    # shared styles and behaviour for the division pages
+  section-motion.*      # scroll and pointer motion shared by every page
+  favicon.svg, *.png    # cube icon, touch icon, share image (og-image.png)
+  robots.txt, sitemap.xml, site.webmanifest
 ```
 
-Because everything is in `index.html`, edits are made directly in that file.
-Search for section anchors (`#world`, `#services`, `#contact`) or the
-`<style>` / `<script>` blocks to find what you're looking for.
+## Sound
+
+The landing page synthesises its audio with the Web Audio API (no audio files):
+a layer-turn click, a camera whoosh between faces, a chord when the cube solves,
+and a note for each piece on hover. Sound is on by default and starts on the
+first click, tap or key press, because browsers block audio before that. The
+"Sound" toggle (bottom left) mutes it and remembers the choice.
+
+## SEO
+
+Canonical, Open Graph and sitemap URLs assume the site is served from
+`https://cubemusic.tv/`. Search and replace that origin if the domain differs.
 
 ## Notes
 
