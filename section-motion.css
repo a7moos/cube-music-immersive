@@ -1,0 +1,51 @@
+@font-face{font-family:Outfit;src:url("fonts/outfit.woff2") format("woff2");font-style:normal;font-weight:100 900;font-display:swap}
+:root{--sans:Outfit,"Helvetica Neue",Arial,sans-serif}
+html body{font-family:var(--sans)}
+h1,h2,h3,.copyblock h2,.stage-copy h2{font-family:var(--sans);font-weight:500;letter-spacing:-.035em}
+p,.lede,.prose,.steps,.names,.field input,.field textarea{font-family:var(--sans)}
+.k,.topnav,.hint,.link,.ribbon-artist,.year,.kind,.dock,.copy,.scroll-hint{font-family:var(--mono)}
+body.has-ambient-motion>main,body.has-ambient-motion>.foot{position:relative;z-index:1}
+.ambient-gradient{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at var(--pointer-x,75%) var(--pointer-y,30%),color-mix(in srgb,var(--ambient-color,var(--accent,#ee383e)) 14%,transparent),transparent 64%)}
+body.home-ambient .ambient-gradient{z-index:2;background:radial-gradient(ellipse at var(--pointer-x,75%) var(--pointer-y,30%),color-mix(in srgb,var(--cube-highlight,var(--ambient-color,#ee383e)) 22%,transparent),transparent 65%);mix-blend-mode:screen}
+/* Pitch Pro inspired section transitions, in the Cube division palette. */
+.hero.motion-hero{min-height:calc(100svh - 74px);margin:0;padding:12vh 7vw 72px;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;text-align:left;isolation:isolate;overflow:hidden;border:0;border-radius:0;transform-origin:50% 100%;transform:perspective(1400px) rotateX(var(--hero-tilt,0deg)) scale(var(--hero-scale,1));opacity:var(--hero-opacity,1);will-change:transform,opacity;background:#070708}
+.hero.motion-hero::before{inset:-10%;width:auto;height:auto;z-index:-2;pointer-events:none;background:radial-gradient(ellipse at 78% 42%,color-mix(in srgb,var(--accent) 55%,transparent),transparent 46%),linear-gradient(90deg,#070708 0%,#070708 42%,transparent 68%);transform:translate3d(var(--glow-x,0px),var(--glow-y,0px),0);filter:blur(8px)}
+.hero.motion-hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,#070708 0%,#070708e6 38%,transparent 62%)}
+.hero.motion-hero>.k,.hero.motion-hero h1,.hero.motion-hero .lede,.hero.motion-hero .hero-actions{position:relative;z-index:1}
+.hero.motion-hero>.k{margin:0 0 22px;color:#cbc8c2}
+.hero.motion-hero h1{margin:0;max-width:12ch;font-size:clamp(46px,6vw,92px);line-height:1.08}
+.hero.motion-hero .lede{margin:22px 0 0;max-width:34ch;font-size:16px;color:#e0ddd6}
+.hero.motion-hero .hero-actions{margin:32px 0 0;justify-content:flex-start}
+.hero.motion-hero .link:hover{color:#fff}
+.face-cube{position:absolute;z-index:0;right:9vw;top:46%;width:300px;height:300px;translate:0 -50%;perspective:900px;pointer-events:none}
+.face-spin{position:absolute;left:50%;top:50%;width:156px;height:156px;margin:-78px 0 0 -78px;transform-style:preserve-3d;transform:rotateX(-22deg) rotateY(-32deg)}
+.face-side{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:5px;background:#0b0c0f;border:1px solid #2a2c32;border-radius:8px;backface-visibility:hidden}
+.face-side i{border-radius:2px;background:var(--tile);box-shadow:inset 0 1px 0 #ffffff55,inset 0 -2px 3px #0006;animation:face-breathe 1.8s ease-in-out infinite;animation-delay:calc(var(--i)*70ms)}
+.face-front{transform:translateZ(78px)}
+.face-back{transform:rotateY(180deg) translateZ(78px)}
+.face-right{transform:rotateY(90deg) translateZ(78px)}
+.face-left{transform:rotateY(-90deg) translateZ(78px)}
+.face-top{transform:rotateX(90deg) translateZ(78px)}
+.face-bottom{transform:rotateX(-90deg) translateZ(78px)}
+@keyframes face-breathe{0%,100%{filter:brightness(.78)}50%{filter:brightness(1.12)}}
+.motion-copy{transform:translateY(var(--copy-y,0px));opacity:var(--copy-opacity,1)}
+@media(max-width:800px){
+  .hero.motion-hero{min-height:calc(100svh - 120px);padding:28vh 20px 48px}
+  .hero.motion-hero h1{max-width:11ch;font-size:clamp(40px,11vw,64px)}
+  .hero.motion-hero .lede{font-size:15px}
+  .face-cube{width:220px;height:220px;right:-36px;top:18%}
+  .face-spin{width:112px;height:112px;margin:-56px 0 0 -56px}
+  .face-front{transform:translateZ(56px)}
+  .face-back{transform:rotateY(180deg) translateZ(56px)}
+  .face-right{transform:rotateY(90deg) translateZ(56px)}
+  .face-left{transform:rotateY(-90deg) translateZ(56px)}
+  .face-top{transform:rotateX(90deg) translateZ(56px)}
+  .face-bottom{transform:rotateX(-90deg) translateZ(56px)}
+}
+@media(prefers-reduced-motion:reduce){.hero.motion-hero{transform:none!important;opacity:1!important;will-change:auto}.hero.motion-hero::before{transform:none}.motion-copy{transform:none!important;opacity:1!important}.face-side i{animation:none}}
+
+/* Division-colored guide stays visible throughout the content sections. */
+main > .hero.motion-hero,main > .block{border-left:6px solid var(--accent)}
+.motion-section{position:relative;isolation:isolate;overflow:hidden;background:#0b0b0e;transform-origin:50% 100%;transform:perspective(1600px) rotateX(var(--section-tilt,0deg)) scale(var(--section-scale,1));opacity:var(--section-opacity,1)}
+.motion-section::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at var(--pointer-x,75%) var(--pointer-y,30%),color-mix(in srgb,var(--accent) 23%,transparent),transparent 65%),radial-gradient(ellipse at calc(100% - var(--pointer-x,75%)) 100%,color-mix(in srgb,var(--accent) 9%,transparent),transparent 60%)}
+@media(prefers-reduced-motion:reduce){.motion-section{transform:none!important;opacity:1!important}}

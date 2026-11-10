@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101011">
+<meta name="description" content="Cube Music talent agency. Submit your profile and the talent you want represented.">
+<title>Talent agency | Cube Music</title>
+<link rel="stylesheet" href="site.css?v=talk">
+<link rel="stylesheet" href="section-motion.css?v=4">
+</head>
+<body data-section-effects id="top" style="--accent:#16af69">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="brand" href="index.html" aria-label="Cube Music home">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="8" height="8" rx="1" fill="#ee383e"/><rect x="11" y="1" width="8" height="8" rx="1" fill="#16af69"/><rect x="21" y="1" width="8" height="8" rx="1" fill="#2068a6"/><rect x="1" y="11" width="8" height="8" rx="1" fill="#f4f1ea"/><rect x="11" y="11" width="8" height="8" rx="1" fill="#2068a6"/><rect x="21" y="11" width="8" height="8" rx="1" fill="#f3e927"/><rect x="1" y="21" width="8" height="8" rx="1" fill="#f3e927"/><rect x="11" y="21" width="8" height="8" rx="1" fill="#ee383e"/><rect x="21" y="21" width="8" height="8" rx="1" fill="#16af69"/></svg>
+    CUBE MUSIC
+  </a>
+  <nav class="topnav" aria-label="Divisions">
+    <a href="label.html"><i class="sw" style="background:#ee383e"></i>Label</a>
+    <a href="talent.html" aria-current="page"><i class="sw" style="background:#16af69"></i>Talent</a>
+    <a href="production.html"><i class="sw" style="background:#3c8ad8"></i>Production</a>
+    <a href="events.html"><i class="sw" style="background:#f3e927"></i>Events</a>
+    <a href="publishing.html"><i class="sw" style="background:#f4f1ea"></i>Publishing</a>
+    <a href="distribution.html"><i class="sw" style="background:#ff7a18"></i>Distribution</a>
+  </nav>
+</header>
+<main id="main">
+  <section class="hero">
+    <span class="k">02  /  06  ·  Talent agency</span>
+    <h1>People, possibility, progress.</h1>
+    <p class="lede">Representation and career management. Bookings, brand partnerships and long-term artist development under one roof.</p>
+    <div class="hero-actions">
+      <a class="link" href="#profile">Submit your profile ↗</a>
+    </div>
+  </section>
+  <section class="block">
+    <span class="k">Representation</span>
+    <h2>One roof for the career around the music.</h2>
+    <ol class="steps">
+      <li><span class="k">01</span><b>Bookings</b><span>Shows, sessions and the calendar that keeps the work moving.</span></li>
+      <li><span class="k">02</span><b>Partnerships</b><span>Brands and collaborations chosen to fit the artist, not the other way around.</span></li>
+      <li><span class="k">03</span><b>Development</b><span>A longer plan: the next record, the next room, the next chapter.</span></li>
+    </ol>
+  </section>
+  <section class="block" id="profile">
+    <span class="k">Submit a profile</span>
+    <h2>Tell us the talent.</h2>
+    <p class="prose">Send your name, what you do, and a link to the work. This opens an email to info@cubemusic.tv with your profile ready to send.</p>
+    <form id="talent-form" class="sheet" novalidate>
+      <div class="pair">
+        <label class="field"><span>Name</span><input name="Name" type="text" autocomplete="name" required></label>
+        <label class="field"><span>Artist name</span><input name="Artist name" type="text" autocomplete="nickname"></label>
+      </div>
+      <div class="pair">
+        <label class="field"><span>Email</span><input name="Email" type="email" autocomplete="email" required></label>
+        <label class="field"><span>Phone</span><input name="Phone" type="tel" autocomplete="tel"></label>
+      </div>
+      <label class="field"><span>Based in</span><input name="City" type="text" autocomplete="address-level2" placeholder="City"></label>
+      <fieldset class="field" style="border:0;padding:0;margin:0">
+        <legend class="legend">Talent</legend>
+        <div class="choices">
+          <label><input type="checkbox" name="Talent" value="Vocals">Vocals</label>
+          <label><input type="checkbox" name="Talent" value="Songwriting">Songwriting</label>
+          <label><input type="checkbox" name="Talent" value="Production">Production</label>
+          <label><input type="checkbox" name="Talent" value="Performance">Performance</label>
+          <label><input type="checkbox" name="Talent" value="DJ">DJ</label>
+          <label><input type="checkbox" name="Talent" value="Dance">Dance</label>
+          <label><input type="checkbox" name="Talent" value="Acting">Acting</label>
+          <label><input type="checkbox" name="Talent" value="Hosting">Hosting</label>
+        </div>
+      </fieldset>
+      <div class="pair">
+        <label class="field"><span>Style</span><input name="Style" type="text" placeholder="Shaabi, pop, hip hop…"></label>
+        <label class="field">
+          <span>Looking for</span>
+          <select name="Looking for">
+            <option>Representation</option>
+            <option>A record deal</option>
+            <option>Bookings</option>
+            <option>Production</option>
+            <option>A conversation</option>
+          </select>
+        </label>
+      </div>
+      <label class="field"><span>Instagram</span><input name="Instagram" type="text" placeholder="@handle or URL"></label>
+      <label class="field"><span>Link to your work</span><input name="Work" type="text" placeholder="YouTube, Spotify, SoundCloud, or a site" required></label>
+      <label class="field"><span>About the talent</span><textarea name="About" placeholder="A few lines on who you are and what you want next."></textarea></label>
+      <p class="err" id="form-err" role="alert"></p>
+      <div class="form-row">
+        <button class="submit" type="submit">Send profile</button>
+        <p class="note">Addressed to info@cubemusic.tv. Your mail app sends it — Cube does not store the form on this page.</p>
+      </div>
+    </form>
+    <div class="receipt" id="receipt" hidden>
+      <span class="k">Profile</span>
+      <h2>Ready to send.</h2>
+      <p class="prose">Your mail app should open with this note addressed to info@cubemusic.tv. If it stays closed, copy the profile and send it yourself.</p>
+      <pre id="receipt-body"></pre>
+      <div class="hero-actions">
+        <button class="submit" id="copy-profile" type="button">Copy profile</button>
+        <a class="link" id="mail-again" href="mailto:info@cubemusic.tv">Open mail ↗</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="foot">
+  <div class="foot-top">
+    <a class="foot-brand" href="index.html" aria-label="Cube Music home"><img src="logos/cube-music.png" alt="Cube Music" width="1600" height="535"></a>
+    <div class="family">
+      <a href="https://cubepicture.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Cube Pictures"><img src="logos/cube-pictures.png" alt="Cube Pictures" width="1600" height="535"></a>
+      <a href="https://cubeadvertising.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Cube Advertising"><img src="logos/cube-advertising.png" alt="Cube Advertising" width="1600" height="535"></a>
+    </div>
+    <a class="back-top" href="#top">Back to top <span aria-hidden="true">↑</span></a>
+  </div>
+  <div class="foot-office">
+    <div class="foot-address">
+      <span class="k">UAE office</span>
+      <p>Sharjah Media City (Shams), Al Messaned, Al Bataeh, P.O. Box 120139, Sharjah, United Arab Emirates.</p>
+      <a href="tel:+971526418282">(+971) 52 641 8282</a>
+    </div>
+    <nav class="social" aria-label="Social">
+      <a href="https://www.instagram.com/cubemusicegypt" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.8" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor"/></svg></a>
+      <a href="https://www.facebook.com/CubeMusic" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.2 8.4V6.9c0-.7.4-1 1.1-1H17V3.4h-2C12.6 3.4 11.4 4.7 11.4 6.8v1.6H9.4v2.6h2v8.6h2.8v-8.6h2.2l.3-2.6h-2.5z"/></svg></a>
+      <a href="https://www.youtube.com/c/CubeMusicTV" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.6 8.2a2.5 2.5 0 0 0-1.8-1.8C18.2 6 12 6 12 6s-6.2 0-7.8.4a2.5 2.5 0 0 0-1.8 1.8C2 9.8 2 12.2 2 12.2s0 2.4.4 4a2.5 2.5 0 0 0 1.8 1.8C5.8 18.4 12 18.4 12 18.4s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8c.4-1.6.4-4 .4-4s0-2.4-.4-4zM10.2 15.2V9.2l5 3-5 3z"/></svg></a>
+      <a href="https://twitter.com/CubeMusicEgypt" target="_blank" rel="noopener noreferrer" aria-label="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14.6 10.5 21.2 3h-1.6l-5.7 6.3L9.4 3H3.4l6.9 10L3.4 21h1.6l6.1-6.7L14.5 21h6l-5.9-10.5zm-2.1 2.4-.7-1L6.2 4.5h2.4l4.5 6.2.7 1 6 8.3h-2.4l-4.9-6.8z"/></svg></a>
+    </nav>
+  </div>
+  <div class="foot-bottom">
+    <span>© <span data-year>2026</span> Cube Music. All rights reserved.</span>
+    <span>A CUBE company. A world of stories.</span>
+    <a href="mailto:info@cubemusic.tv">info@cubemusic.tv</a>
+  </div>
+</footer>
+<script src="site.js?v=talk"></script>
+<script src="section-motion.js?v=4"></script>
+</body>
+</html>
