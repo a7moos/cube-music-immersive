@@ -651,7 +651,7 @@ sceneRender=function(){
   }
   firstFrame=false;
   if(!panelOpen&&!portrait){
-    const rx=goal.z,rz=-goal.x,len=Math.hypot(rx,rz)||1,k=z.id==='arrival'?2.1-z.t*.85:1.25;
+    const rx=goal.z,rz=-goal.x,len=Math.hypot(rx,rz)||1,hs=clamp(scrollY/(innerHeight*.5),0,1),k=z.id==='arrival'?1.25*hs*hs*(3-2*hs):1.25;
     look.set(-rx/len*k,0,-rz/len*k);
   }
   const slide=panelOpen?(portrait?-.35:-.85):0;
@@ -726,7 +726,7 @@ sceneRender=function(){
     setTimeout(tick,90)})();
 })();
 
-// Sound: a soft ambient bed plus synthesised effects for the cube (turns, camera moves, hover notes).
+// Sound: a low ambient drone plus synthesised effects for the cube (turns, camera moves, hover notes).
 // On by default; browsers only allow audio after the first click, tap or key press.
 (function(){
   const btn=document.querySelector('.sound');if(!btn)return;
@@ -738,19 +738,18 @@ sceneRender=function(){
     if(!AC)return false;
     ctx=new AC();master=ctx.createGain();master.gain.value=0;
     const comp=ctx.createDynamicsCompressor();master.connect(comp);comp.connect(ctx.destination);
-    const amb=ctx.createGain();amb.gain.value=.42;amb.connect(master);
-    [110,164.81,220,329.63].forEach((f,i)=>{
-      const o=ctx.createOscillator();o.type=i<2?'sine':'triangle';o.frequency.value=f;
-      const g=ctx.createGain();g.gain.value=i<2?.1:.04;
-      const lfo=ctx.createOscillator();lfo.type='sine';lfo.frequency.value=.05+i*.03;
-      const lg=ctx.createGain();lg.gain.value=.4;lfo.connect(lg);lg.connect(g.gain);
-      o.connect(g);g.connect(amb);o.start();lfo.start();
+    // Ambient bed: a low, warm A drone. Pure sines through a low-pass, breathing slowly. No noise layer.
+    const amb=ctx.createGain();amb.gain.value=.5;amb.connect(master);
+    const warm=ctx.createBiquadFilter();warm.type='lowpass';warm.frequency.value=420;warm.Q.value=.3;warm.connect(amb);
+    [[55,.2,.031],[110,.1,.043],[110.35,.07,.027],[164.81,.035,.019]].forEach(([f,level,rate])=>{
+      const o=ctx.createOscillator();o.type='sine';o.frequency.value=f;
+      const g=ctx.createGain();g.gain.value=level;
+      const lfo=ctx.createOscillator();lfo.type='sine';lfo.frequency.value=rate;
+      const lg=ctx.createGain();lg.gain.value=level*.35;lfo.connect(lg);lg.connect(g.gain);
+      o.connect(g);g.connect(warm);o.start();lfo.start();
     });
     noiseBuf=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate);const d=noiseBuf.getChannelData(0);
     for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
-    const air=ctx.createBufferSource();air.buffer=noiseBuf;air.loop=true;
-    const bp=ctx.createBiquadFilter();bp.type='bandpass';bp.frequency.value=800;bp.Q.value=.6;
-    const ng=ctx.createGain();ng.gain.value=.0018;air.connect(bp);bp.connect(ng);ng.connect(amb);air.start();
     bus=ctx.createGain();bus.gain.value=.9;bus.connect(master);
     // A short filtered echo gives the effects a room to sit in.
     send=ctx.createGain();send.gain.value=.3;
