@@ -43,8 +43,9 @@ cube-music-immersive/
 
 The landing page synthesises its audio with the Web Audio API (no audio files):
 a layer-turn click, a camera whoosh between faces, a chord when the cube solves,
-and a note for each piece on hover. Sound is on by default and starts on the
-first click, tap or key press, because browsers block audio before that. The
+and a note for each piece on hover. Sound is on by default. It plays at once
+where the browser allows autoplay, otherwise from the first click, tap or key
+press. The
 "Sound" toggle (bottom left) mutes it and remembers the choice.
 
 ## SEO
