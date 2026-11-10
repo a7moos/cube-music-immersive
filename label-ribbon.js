@@ -14,14 +14,9 @@
     ["hamada.jpg", "Metahmelany", "Hamada Helal"],
     ["houda.jpg", "El Dalaa Wel Enbesat", "Houda Bondok"],
     ["nour.png", "Rouhi", "Mohamed Nour"],
-    ["tarek.jpg", "W Nkhaf", "Tarek El Sheikh"],
     ["adawya.jpg", "Gowa Einy", "Mohamed Adaweya"],
     ["wama.jpg", "Rayha Gaya", "WAMA"],
     ["bahaa.jpg", "Al Beat Wehesh", "Bahaa Sultan"],
-    ["bahaa-beat.jpg", "Al Beat Wehesh", "Bahaa Sultan"],
-    ["marwa.jpg", "Bab El Ghorna", "Marwa Nasr, Amr Shiea & Anba"],
-    ["marwa-rabna.jpg", "Rabna Yekfina", "Marwa Nasr & Mohamed Rashad"],
-    ["gena.jpg", "Gena", "Haifa Wehbe"],
     ["sharmoofers.jpg", "Ramsis Paris", "Sharmoofers"]
 ];
   const releases = topHits.map(([file, title, artist]) => ({
