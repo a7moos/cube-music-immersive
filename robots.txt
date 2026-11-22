@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /backup/
+Disallow: /env/
+Disallow: /index.backup.html
+Disallow: /drive-labels/test.jpg
 
 Sitemap: https://cubemusic.tv/sitemap.xml

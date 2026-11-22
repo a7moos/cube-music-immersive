@@ -1,0 +1,56 @@
+.hp{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.talk-dialog{position:fixed;inset:0;margin:auto;width:min(560px,calc(100vw - 28px));height:fit-content;max-height:min(88svh,760px);padding:0;overflow:hidden;display:none;flex-direction:column;border:1px solid rgba(255,255,255,.14);background:#101011;color:var(--fg,#eeece7);box-shadow:0 28px 80px rgba(0,0,0,.55);z-index:80}
+.talk-dialog[open]{display:flex}
+.talk-dialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(14px)}
+.talk-dialog [hidden]{display:none !important}
+.talk-chrome{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px 14px;border-bottom:1px solid rgba(255,255,255,.1);position:sticky;top:0;z-index:2;background:#101011}
+.talk-chrome .k{margin:0}
+.talk-scroll{overflow:auto;-webkit-overflow-scrolling:touch;padding:8px 28px 32px;padding-bottom:max(32px,env(safe-area-inset-bottom))}
+.talk-dialog h2{margin:10px 0 0;font-size:clamp(28px,4vw,40px);font-weight:500;letter-spacing:-.04em;line-height:1.1}
+.talk-dialog .prose{margin:14px 0 0;color:#c8c4bc;font-size:13px;line-height:1.6}
+.talk-dialog .sheet{margin-top:18px;display:grid;gap:18px;max-width:none}
+.talk-dialog .pair{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.talk-dialog .field{display:grid;gap:8px}
+.talk-dialog .field span{color:var(--dim,#6f6c67);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.talk-dialog .field i{font-style:normal;letter-spacing:.04em;text-transform:none;opacity:.7}
+.talk-dialog input,.talk-dialog select,.talk-dialog textarea{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.16);color:inherit;padding:12px 0;border-radius:0;font-size:16px;line-height:1.4}
+.talk-dialog textarea{min-height:120px;resize:vertical;line-height:1.6}
+.talk-dialog input:focus,.talk-dialog select,.talk-dialog textarea:focus{outline:none;border-bottom-color:var(--fg,#eeece7)}
+.talk-dialog .err{color:var(--red,#ff443b);font-size:12px;min-height:1.2em;margin:0}
+.talk-dialog .form-row{display:flex;flex-wrap:wrap;align-items:center;gap:16px 22px}
+.talk-dialog .submit{background:var(--fg,#eeece7);color:#101011;padding:14px 18px;min-height:48px;letter-spacing:.12em;text-transform:uppercase;font-size:12px;border:0;cursor:pointer;width:auto}
+.talk-dialog .submit:disabled{opacity:.55;cursor:wait}
+.talk-dialog .note{margin:0;color:var(--muted,#a7a39c);font-size:11px;line-height:1.5;max-width:36ch}
+.talk-dialog pre{margin:18px 0 0;white-space:pre-wrap;color:#d4d0c8;font:12px/1.7 var(--mono,ui-monospace,Menlo,Consolas,monospace);border-top:1px solid rgba(255,255,255,.12);padding-top:16px}
+.talk-dialog .close-talk{background:rgba(255,255,255,.08);border:0;color:var(--fg,#eeece7);font-size:11px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;min-height:44px;min-width:72px;padding:0 14px}
+.talk-dialog .close-talk:hover{background:rgba(255,255,255,.14)}
+.talk-dialog .hero-actions{display:flex;flex-wrap:wrap;gap:16px 22px;margin-top:22px;align-items:center}
+.talk-dialog .panel-link,.talk-dialog a.panel-link{margin-top:0;align-self:center}
+.talk-dialog #talk-receipt{padding-top:10px}
+
+@media(max-width:680px){
+  .talk-dialog{
+    inset:0;
+    width:100%;
+    max-width:none;
+    height:100%;
+    max-height:100dvh;
+    margin:0;
+    border:0;
+    border-radius:0;
+    box-shadow:none;
+  }
+  .talk-chrome{padding:calc(12px + env(safe-area-inset-top)) 16px 12px}
+  .talk-scroll{padding:6px 20px calc(28px + env(safe-area-inset-bottom))}
+  .talk-dialog .pair{grid-template-columns:1fr}
+  .talk-dialog .form-row{flex-direction:column;align-items:stretch;gap:14px}
+  .talk-dialog .submit{width:100%}
+  .talk-dialog .note{max-width:none}
+  .talk-dialog h2{font-size:clamp(30px,8vw,40px)}
+  .talk-dialog .hero-actions{flex-direction:column;align-items:stretch}
+  .talk-dialog .hero-actions .submit,.talk-dialog .hero-actions a{width:100%;justify-content:center;text-align:center}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .talk-dialog,.talk-dialog::backdrop{transition:none}
+}

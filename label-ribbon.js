@@ -38,8 +38,8 @@
     '</div>' +
     '<div class="ribbon-stage" role="region" aria-roledescription="carousel" aria-label="Release catalogue. Drag or use the arrow keys to browse." tabindex="0"><div class="ribbon-layer"></div></div>' +
     '<div class="ribbon-foot">' +
-      '<a class="cube-mark" href="index.html" aria-label="Cube Music home"><span class="cube-spin">' + ['front', 'back', 'right', 'left', 'top', 'bottom'].map(face).join('') + '</span></a>' +
       '<div class="scrub-track" role="slider" tabindex="0" aria-valuemin="0" aria-valuenow="0" aria-label="Drag to scrub the catalogue"><div class="scrub-tick"></div></div>' +
+      '<a class="cube-mark" href="index.html" aria-label="Cube Music home"><span class="cube-spin">' + ['front', 'back', 'right', 'left', 'top', 'bottom'].map(face).join('') + '</span></a>' +
     '</div>';
   source.before(ribbon);
   source.hidden = true;
@@ -52,9 +52,14 @@
   const dialog = document.createElement('dialog');
   dialog.className = 'ribbon-dialog';
   dialog.setAttribute('aria-labelledby', 'release-detail-title');
-  dialog.innerHTML = '<button class="ribbon-close" type="button">✕ CLOSE</button><div class="ribbon-detail"><div class="ribbon-detail-media"><img alt=""></div><div class="ribbon-detail-copy"><span class="k" data-detail-meta></span><h2 id="release-detail-title"></h2><p data-detail-artist></p><p class="ribbon-note">Cube Music · Record label</p></div></div>';
+  dialog.innerHTML =
+    '<div class="ribbon-chrome"><span class="k">Top hit</span><button class="ribbon-close" type="button">Close</button></div>' +
+    '<div class="ribbon-detail"><div class="ribbon-detail-media"><img alt=""></div>' +
+    '<div class="ribbon-detail-copy"><span class="k" data-detail-meta></span><h2 id="release-detail-title"></h2><p data-detail-artist></p><p class="ribbon-note">Cube Music · Record label</p>' +
+    '<div class="ribbon-nav"><button type="button" data-prev>Previous</button><button type="button" data-next>Next</button></div></div></div>';
   document.body.append(dialog);
-  dialog.querySelector('button').onclick = () => dialog.close();
+  let openIndex = 0;
+  dialog.querySelector('.ribbon-close').onclick = () => dialog.close();
   dialog.addEventListener('click', e => {
     if (e.target !== dialog) return;
     const b = dialog.getBoundingClientRect();
@@ -84,10 +89,10 @@
   let laid = NaN;
   let stageHeight = 0;
   let playing = !reduced;
-  let view = 'ribbon';
+  let view = 'spot';
   try {
     const savedView = localStorage.getItem('cube-label-view');
-    if (savedView === 'spot' || savedView === 'grid') view = savedView;
+    if (savedView === 'ribbon' || savedView === 'grid') view = savedView;
     if (localStorage.getItem('cube-label-auto') === 'off') playing = false;
   } catch (_) {}
   const RATIO = 453 / 305;
@@ -106,15 +111,18 @@
   }
 
   function openRelease(index) {
-    const item = filtered[index];
-    if (!item) return;
+    if (!filtered.length) return;
     hoverSpeed = 0;
+    openIndex = ((index % filtered.length) + filtered.length) % filtered.length;
+    const item = filtered[openIndex];
     const img = dialog.querySelector('img');
     img.src = item.src;
     img.alt = item.title + ' — ' + item.artist;
     dialog.querySelector('h2').textContent = item.title;
-    dialog.querySelector('[data-detail-meta]').textContent = item.kind + '  /  ' + item.year + '  —  ' + String(index + 1).padStart(2, '0') + ' / ' + String(filtered.length).padStart(2, '0');
+    dialog.querySelector('[data-detail-meta]').textContent = (item.kind || 'Top hit') + (item.year ? '  ·  ' + item.year : '') + '  —  ' + String(openIndex + 1).padStart(2, '0') + ' / ' + String(filtered.length).padStart(2, '0');
     dialog.querySelector('[data-detail-artist]').textContent = item.artist;
+    dialog.querySelector('[data-prev]').disabled = filtered.length < 2;
+    dialog.querySelector('[data-next]').disabled = filtered.length < 2;
     if (!dialog.open) dialog.showModal();
   }
 
@@ -392,8 +400,13 @@
     if (event.key === 'Home') { event.preventDefault(); target = Math.round(current) - mod(Math.round(current), cards.length); wake(); }
     if (event.key === 'End') { event.preventDefault(); target = Math.round(current) - mod(Math.round(current), cards.length) + cards.length - 1; wake(); }
   });
+  dialog.querySelector('[data-prev]').addEventListener('click', () => openRelease(openIndex - 1));
+  dialog.querySelector('[data-next]').addEventListener('click', () => openRelease(openIndex + 1));
   document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && dialog.open) dialog.close();
+    if (!dialog.open) return;
+    if (event.key === 'Escape') dialog.close();
+    if (event.key === 'ArrowLeft') { event.preventDefault(); openRelease(openIndex - 1); }
+    if (event.key === 'ArrowRight') { event.preventDefault(); openRelease(openIndex + 1); }
   });
 
   scrub.addEventListener('pointerdown', event => {

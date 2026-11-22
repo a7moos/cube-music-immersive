@@ -1,1 +1,19 @@
-{"name":"Cube Music","short_name":"Cube Music","description":"Shaping the sound.","start_url":"./","display":"browser","background_color":"#070708","theme_color":"#070708","icons":[{"src":"favicon.svg","sizes":"any","type":"image/svg+xml"},{"src":"apple-touch-icon.png","sizes":"180x180","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png"}]}
+{
+  "id": "https://cubemusic.tv/",
+  "name": "Cube Music",
+  "short_name": "Cube Music",
+  "description": "Egyptian entertainment house — record label, talent, production, events, publishing and distribution.",
+  "start_url": "./",
+  "scope": "./",
+  "lang": "en",
+  "dir": "ltr",
+  "display": "standalone",
+  "background_color": "#070708",
+  "theme_color": "#070708",
+  "categories": ["music", "entertainment"],
+  "icons": [
+    {"src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"},
+    {"src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
